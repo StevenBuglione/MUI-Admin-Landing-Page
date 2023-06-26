@@ -9,12 +9,15 @@ import Box, {BoxProps} from '@mui/material/Box'
 // ** Icons Imports
 import ArrowUp from 'mdi-material-ui/ArrowUp'
 
+// ** Theme Config Import
+import themeConfig from 'src/configs/themeConfig'
 
 // ** Type Import
 import {LayoutProps} from 'src/@core/layouts/types'
 
 // ** Components
 import AppBar from './components/vertical/appBar'
+import Navigation from './components/vertical/navigation'
 import Footer from './components/shared-components/footer'
 import ScrollToTop from 'src/@core/components/scroll-to-top'
 
@@ -24,8 +27,13 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
   display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: 'red'
+  flexDirection: 'column'
+})
+
+const SideBarLayoutWrapper = styled('div')({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'row'
 })
 
 const MainContentWrapper = styled(Box)<BoxProps>({
@@ -33,8 +41,7 @@ const MainContentWrapper = styled(Box)<BoxProps>({
   minWidth: 0,
   display: 'flex',
   minHeight: '100vh',
-  flexDirection: 'column',
-  backgroundColor: '#fff'
+  flexDirection: 'column'
 })
 
 const ContentWrapper = styled('main')(({ theme }) => ({
@@ -54,6 +61,7 @@ const VerticalLayout = (props: LayoutProps) => {
 
   // ** Vars
   const { contentWidth } = settings
+  const navWidth = themeConfig.navigationSize
 
   // ** States
   const [navVisible, setNavVisible] = useState<boolean>(false)
@@ -67,29 +75,39 @@ const VerticalLayout = (props: LayoutProps) => {
         {/* Navigation Menu */}
         <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
         <MainContentWrapper className='layout-content-wrapper'>
+          <SideBarLayoutWrapper>
+            <Navigation
+              navWidth={navWidth}
+              navVisible={navVisible}
+              setNavVisible={setNavVisible}
+              toggleNavVisibility={toggleNavVisibility}
+              {...props}
+            />
+            <div>
+              {/* Content */}
+              <ContentWrapper
+                className='layout-page-content'
+                sx={{
+                  ...(contentWidth === 'boxed' && {
+                    mx: 'auto',
+                    '@media (min-width:1440px)': { maxWidth: '100%' },
+                    '@media (min-width:1200px)': { maxWidth: '100%' }
+                  })
+                }}
+              >
+                {children}
+              </ContentWrapper>
 
+              {/* Footer Component */}
+              <Footer {...props} />
 
-          {/* Content */}
-          <ContentWrapper
-            className='layout-page-content'
-            sx={{
-              ...(contentWidth === 'boxed' && {
-                mx: 'auto',
-                '@media (min-width:1440px)': { maxWidth: 1440 },
-                '@media (min-width:1200px)': { maxWidth: '100%' }
-              })
-            }}
-          >
-            {children}
-          </ContentWrapper>
+              {/* Portal for React Datepicker */}
+              <DatePickerWrapper sx={{ zIndex: 11 }}>
+                <Box id='react-datepicker-portal'></Box>
+              </DatePickerWrapper>
 
-          {/* Footer Component */}
-          <Footer {...props} />
-
-          {/* Portal for React Datepicker */}
-          <DatePickerWrapper sx={{ zIndex: 11 }}>
-            <Box id='react-datepicker-portal'></Box>
-          </DatePickerWrapper>
+            </div>
+          </SideBarLayoutWrapper>
         </MainContentWrapper>
       </VerticalLayoutWrapper>
 

@@ -8,6 +8,7 @@ import MuiToolbar, {ToolbarProps} from '@mui/material/Toolbar'
 
 // ** Type Import
 import {Settings} from 'src/@core/context/settingsContext'
+import VerticalNavHeader from "../navigation/VerticalNavHeader";
 
 interface Props {
   hidden: boolean
@@ -28,7 +29,8 @@ const AppBar = styled(MuiAppBar)<AppBarProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4)
-  }
+  },
+  zIndex : 1400
 }))
 
 const Toolbar = styled(MuiToolbar)<ToolbarProps>(({ theme }) => ({
@@ -48,6 +50,7 @@ const LayoutAppBar = (props: Props) => {
   return (
     <AppBar elevation={0} color='default' className='layout-navbar' position='static'>
       <Toolbar>
+        <VerticalNavHeader {...props} />
         {(userVerticalAppBarContent && userVerticalAppBarContent(props)) || null}
       </Toolbar>
     </AppBar>
