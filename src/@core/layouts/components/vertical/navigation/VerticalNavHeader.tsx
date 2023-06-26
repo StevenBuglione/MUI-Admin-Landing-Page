@@ -1,6 +1,5 @@
 // ** React Import
 import React, {ReactNode} from 'react'
-import { Link } from "react-router-dom";
 import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 
 // ** MUI Imports
@@ -55,14 +54,12 @@ const VerticalNavHeader = (props: Props) => {
       {userVerticalNavMenuBranding ? (
         userVerticalNavMenuBranding(props)
       ) : (
-        <Link to={'/'}>
           <StyledLink>
             <AccountBalanceOutlinedIcon fontSize={"large"} color={"primary"}/>
             <HeaderTitle variant='h6' sx={{ ml: 3 }}>
               {themeConfig.templateName}
             </HeaderTitle>
           </StyledLink>
-        </Link>
       )}
     </MenuHeaderWrapper>
   )
