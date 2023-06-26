@@ -2,7 +2,7 @@
 import React, {ReactNode} from 'react'
 
 // ** MUI Imports
-import {styled, useTheme} from '@mui/material/styles'
+import {styled} from '@mui/material/styles'
 import MuiAppBar, {AppBarProps} from '@mui/material/AppBar'
 import MuiToolbar, {ToolbarProps} from '@mui/material/Toolbar'
 
@@ -18,11 +18,11 @@ interface Props {
 }
 
 const AppBar = styled(MuiAppBar)<AppBarProps>(({ theme }) => ({
+  width: '100%',
   transition: 'none',
   alignItems: 'center',
   justifyContent: 'center',
   padding: theme.spacing(0, 6),
-  backgroundColor: 'transparent',
   color: theme.palette.text.primary,
   minHeight: theme.mixins.toolbar.minHeight,
   [theme.breakpoints.down('sm')]: {
@@ -43,24 +43,11 @@ const Toolbar = styled(MuiToolbar)<ToolbarProps>(({ theme }) => ({
 
 const LayoutAppBar = (props: Props) => {
   // ** Props
-  const { settings, verticalAppBarContent: userVerticalAppBarContent } = props
-
-  // ** Hooks
-  const theme = useTheme()
-
-  // ** Vars
-  const { contentWidth } = settings
+  const { verticalAppBarContent: userVerticalAppBarContent } = props
 
   return (
     <AppBar elevation={0} color='default' className='layout-navbar' position='static'>
-      <Toolbar
-        className='navbar-content-container'
-        sx={{
-          ...(contentWidth === 'boxed' && {
-            '@media (min-width:1440px)': { maxWidth: `calc(1440px - ${theme.spacing(6)} * 2)` }
-          })
-        }}
-      >
+      <Toolbar>
         {(userVerticalAppBarContent && userVerticalAppBarContent(props)) || null}
       </Toolbar>
     </AppBar>

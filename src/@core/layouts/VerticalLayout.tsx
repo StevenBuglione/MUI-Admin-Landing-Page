@@ -9,15 +9,12 @@ import Box, {BoxProps} from '@mui/material/Box'
 // ** Icons Imports
 import ArrowUp from 'mdi-material-ui/ArrowUp'
 
-// ** Theme Config Import
-import themeConfig from 'src/configs/themeConfig'
 
 // ** Type Import
 import {LayoutProps} from 'src/@core/layouts/types'
 
 // ** Components
 import AppBar from './components/vertical/appBar'
-import Navigation from './components/vertical/navigation'
 import Footer from './components/shared-components/footer'
 import ScrollToTop from 'src/@core/components/scroll-to-top'
 
@@ -26,7 +23,9 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
-  display: 'flex'
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: 'red'
 })
 
 const MainContentWrapper = styled(Box)<BoxProps>({
@@ -34,7 +33,8 @@ const MainContentWrapper = styled(Box)<BoxProps>({
   minWidth: 0,
   display: 'flex',
   minHeight: '100vh',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  backgroundColor: '#fff'
 })
 
 const ContentWrapper = styled('main')(({ theme }) => ({
@@ -54,7 +54,6 @@ const VerticalLayout = (props: LayoutProps) => {
 
   // ** Vars
   const { contentWidth } = settings
-  const navWidth = themeConfig.navigationSize
 
   // ** States
   const [navVisible, setNavVisible] = useState<boolean>(false)
@@ -66,16 +65,9 @@ const VerticalLayout = (props: LayoutProps) => {
     <>
       <VerticalLayoutWrapper className='layout-wrapper'>
         {/* Navigation Menu */}
-        <Navigation
-          navWidth={navWidth}
-          navVisible={navVisible}
-          setNavVisible={setNavVisible}
-          toggleNavVisibility={toggleNavVisibility}
-          {...props}
-        />
+        <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
         <MainContentWrapper className='layout-content-wrapper'>
-          {/* AppBar Component */}
-          <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
+
 
           {/* Content */}
           <ContentWrapper
