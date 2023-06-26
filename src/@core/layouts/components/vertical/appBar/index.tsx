@@ -25,7 +25,8 @@ const AppBar = styled(MuiAppBar)<AppBarProps>(({ theme }) => ({
   minHeight: theme.mixins.toolbar.minHeight,
   zIndex: 1400,
   display: 'flex',
-  flexDirection: 'row'
+  flexDirection: 'row',
+  position: 'fixed'
 }));
 
 const Toolbar = styled(MuiToolbar)<ToolbarProps>(({ theme }) => ({

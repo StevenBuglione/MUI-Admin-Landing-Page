@@ -1,82 +1,94 @@
-// ** React Imports
-import React, {ReactNode} from 'react'
+import * as React from 'react';
+import { styled,  Theme, CSSObject } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import MuiDrawer from '@mui/material/Drawer';
+import KeyboardDoubleArrowRight from '@mui/icons-material/KeyboardDoubleArrowRight';
+import IconButton from '@mui/material/IconButton';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 
-// ** MUI Imports
-import {styled, useTheme} from '@mui/material/styles'
-import MuiSwipeableDrawer, {SwipeableDrawerProps} from '@mui/material/SwipeableDrawer'
 
 // ** Type Import
 import {Settings} from 'src/@core/context/settingsContext'
+import {NavLink} from "../../../types";
 
 interface Props {
   hidden: boolean
   navWidth: number
   settings: Settings
   navVisible: boolean
-  children: ReactNode
+  children: NavLink
   setNavVisible: (value: boolean) => void
   saveSettings: (values: Settings) => void
 }
 
-const SwipeableDrawer = styled(MuiSwipeableDrawer)<SwipeableDrawerProps>({
+
+const drawerWidth = 250;
+
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
   overflowX: 'hidden',
-  transition: 'width .25s ease-in-out',
-  '& ul': {
-    listStyle: 'none'
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 25px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 25px)`,
   },
-  '& .MuiListItem-gutters': {
-    paddingLeft: 4,
-    paddingRight: 4
-  },
-  '& .MuiDrawer-paper': {
-    left: 'unset',
-    right: 'unset',
-    overflowX: 'hidden',
-    transition: 'width .25s ease-in-out, box-shadow .25s ease-in-out'
-  }
-})
+});
 
-const Drawer = (props: Props) => {
-  // ** Props
-  const { hidden, children, navWidth, navVisible, setNavVisible } = props
 
-  // ** Hook
-  const theme = useTheme()
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+  }),
+);
 
-  // Drawer Props for Mobile & Tablet screens
-  const MobileDrawerProps = {
-    open: navVisible,
-    onOpen: () => setNavVisible(true),
-    onClose: () => setNavVisible(false),
-    ModalProps: {
-      keepMounted: true // Better open performance on mobile.
+export default function MiniDrawer(props: Props) {
+  const {  children} = props
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawer = () => {
+    if(open == true){
+      setOpen(false)
+    }else{
+      setOpen(true)
     }
-  }
-
-  // Drawer Props for Desktop screens
-  const DesktopDrawerProps = {
-    open: true,
-    onOpen: () => null,
-    onClose: () => null
-  }
+  };
 
   return (
-    <SwipeableDrawer
-      className='layout-vertical-nav'
-      variant={hidden ? 'temporary' : 'permanent'}
-      {...(hidden ? { ...MobileDrawerProps } : { ...DesktopDrawerProps })}
-      PaperProps={{ sx: { width: navWidth } }}
-      sx={{
-        width: navWidth,
-        '& .MuiDrawer-paper': {
-          borderRight: 0,
-          backgroundColor: theme.palette.background.default
-        }
-      }}
-    >
-      {children}
-    </SwipeableDrawer>
-  )
+    <Box sx={{ display: 'flex' }}>
+      <Drawer variant="permanent" open={open}>
+        {children}
+        <IconButton
+          key='close'
+          aria-label='Close drawer'
+          color='primary'
+          onClick={() => handleDrawer()}
+        >
+          {open ? <KeyboardDoubleArrowRight /> : <KeyboardDoubleArrowLeftIcon />}
+        </IconButton>
+      </Drawer>
+    </Box>
+  );
 }
 
-export default Drawer

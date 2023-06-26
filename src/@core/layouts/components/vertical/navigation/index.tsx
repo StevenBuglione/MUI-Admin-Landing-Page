@@ -101,8 +101,11 @@ const Navigation = (props: Props) => {
 
   const ScrollWrapper = hidden ? Box : PerfectScrollbar
 
+  // @ts-ignore
   return (
-    <Drawer {...props}>
+
+    // @ts-ignore
+    <Drawer>
       <VerticalNavHeader {...props} />
       <StyledBoxForShadow
         ref={shadowRef}
