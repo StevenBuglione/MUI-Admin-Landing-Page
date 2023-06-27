@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/StevenBuglione/MUI-Admin-Landing-Page/tree/main/static/css/main.5cb72f51.css",
-    "main.js": "/StevenBuglione/MUI-Admin-Landing-Page/tree/main/static/js/main.dd66b24a.js",
-    "index.html": "/StevenBuglione/MUI-Admin-Landing-Page/tree/main/index.html",
-    "main.5cb72f51.css.map": "/StevenBuglione/MUI-Admin-Landing-Page/tree/main/static/css/main.5cb72f51.css.map",
-    "main.dd66b24a.js.map": "/StevenBuglione/MUI-Admin-Landing-Page/tree/main/static/js/main.dd66b24a.js.map"
+    "main.css": "/StevenBuglione/MUI-Admin-Landing-Page/static/css/main.5cb72f51.css",
+    "main.js": "/StevenBuglione/MUI-Admin-Landing-Page/static/js/main.dd66b24a.js",
+    "index.html": "/StevenBuglione/MUI-Admin-Landing-Page/index.html",
+    "main.5cb72f51.css.map": "/StevenBuglione/MUI-Admin-Landing-Page/static/css/main.5cb72f51.css.map",
+    "main.dd66b24a.js.map": "/StevenBuglione/MUI-Admin-Landing-Page/static/js/main.dd66b24a.js.map"
   },
   "entrypoints": [
     "static/css/main.5cb72f51.css",
