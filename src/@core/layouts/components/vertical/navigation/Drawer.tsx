@@ -112,37 +112,42 @@ export default function MiniDrawer(props: Props) {
   };
 
   // Drawer Props for Mobile & Tablet screens
-  const MobileDrawer = () => (
-    <SwipeableDrawerMobile
-      open={navVisible}
-      onOpen={() => setNavVisible(true)}
-      onClose={() => setNavVisible(false)}
-      ModalProps={{
-        keepMounted: true, // Better open performance on mobile.
-      }}
-      sx={{
-        width: navWidth,
-        '& .MuiDrawer-paper': {
-          borderRight: 0
-        }
-      }}
-    >
-      <Box display="flex" alignItems="center">
-        <IconButton
-          key='open'
-          aria-label='Open drawer'
-          color='primary'
-          onClick={() => handleDrawer()}
-        >
-          {open ? <KeyboardDoubleArrowRight /> : <KeyboardDoubleArrowLeftIcon />}
-        </IconButton>
-        <VerticalNavHeader toggleNavVisibility={function (): void {
-          throw new Error('Function not implemented.');
-        }} {...props} />
-      </Box>
-      {children}
-    </SwipeableDrawerMobile>
-  )
+  const MobileDrawer = () => {
+    const theme = useTheme();
+
+    return (
+      <SwipeableDrawerMobile
+        open={navVisible}
+        onOpen={() => setNavVisible(true)}
+        onClose={() => setNavVisible(false)}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        sx={{
+          width: navWidth,
+          '& .MuiDrawer-paper': {
+            borderRight: 0,
+            backgroundColor: theme.palette.background.default, // Change background color
+          }
+        }}
+      >
+        <Box display="flex" alignItems="center">
+          <IconButton
+            key='open'
+            aria-label='Open drawer'
+            color='primary'
+            onClick={() => handleDrawer()}
+          >
+            {open ? <KeyboardDoubleArrowRight /> : <KeyboardDoubleArrowLeftIcon />}
+          </IconButton>
+          <VerticalNavHeader toggleNavVisibility={function (): void {
+            throw new Error('Function not implemented.');
+          }} {...props} />
+        </Box>
+        {children}
+      </SwipeableDrawerMobile>
+    );
+  }
 
   // Drawer Props for Desktop screens
   const DesktopDrawer = () => (
