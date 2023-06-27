@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled,  Theme, CSSObject } from '@mui/material/styles';
+import {styled, Theme, CSSObject, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import KeyboardDoubleArrowRight from '@mui/icons-material/KeyboardDoubleArrowRight';
@@ -39,18 +39,33 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 25px)`,
+  width: `calc(${theme.spacing(7)} + 23px)`,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 25px)`,
+    width: `calc(${theme.spacing(8)} + 23px)`,
   },
 });
 
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+const SwipeableDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
+    overflowX: 'hidden',
+    transition: 'width .25s ease-in-out',
+    '& ul': {
+      listStyle: 'none'
+    },
+    '& .MuiListItem-gutters': {
+      paddingLeft: 4,
+      paddingRight: 4
+    },
+    '& .MuiDrawer-paper': {
+      left: 'unset',
+      right: 'unset',
+      overflowX: 'hidden',
+      transition: 'width .25s ease-in-out, box-shadow .25s ease-in-out'
+    },
     ...(open && {
       ...openedMixin(theme),
       '& .MuiDrawer-paper': openedMixin(theme),
@@ -63,8 +78,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer(props: Props) {
-  const {  children} = props
+  // ** Props
+  const { hidden, children, navWidth, navVisible, setNavVisible } = props
 
+  // ** Hook
+  const theme = useTheme()
   const [open, setOpen] = React.useState(false);
 
   const handleDrawer = () => {
@@ -75,9 +93,39 @@ export default function MiniDrawer(props: Props) {
     }
   };
 
+  // Drawer Props for Mobile & Tablet screens
+  const MobileDrawerProps = {
+    open: navVisible,
+    onOpen: () => setNavVisible(true),
+    onClose: () => setNavVisible(false),
+    ModalProps: {
+      keepMounted: true // Better open performance on mobile.
+    }
+  }
+
+  // Drawer Props for Desktop screens
+  const DesktopDrawerProps = {
+    open: true,
+    onOpen: () => null,
+    onClose: () => null
+  }
+
+
   return (
     <Box sx={{ display: 'flex' }}>
-      <Drawer variant="permanent" open={open}>
+      <SwipeableDrawer
+        className='layout-vertical-nav'
+        variant={hidden ? 'temporary' : 'permanent'}
+        {...(open ? { ...MobileDrawerProps } : { ...DesktopDrawerProps })}
+        PaperProps={{ sx: { width: navWidth } }}
+        sx={{
+          width: navWidth,
+          '& .MuiDrawer-paper': {
+            borderRight: 0,
+            backgroundColor: theme.palette.background.default
+          }
+        }}
+      >
         {children}
         <IconButton
           key='close'
@@ -87,7 +135,7 @@ export default function MiniDrawer(props: Props) {
         >
           {open ? <KeyboardDoubleArrowRight /> : <KeyboardDoubleArrowLeftIcon />}
         </IconButton>
-      </Drawer>
+      </SwipeableDrawer>
     </Box>
   );
 }
