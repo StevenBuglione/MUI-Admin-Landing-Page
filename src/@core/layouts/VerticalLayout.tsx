@@ -30,6 +30,10 @@ const VerticalLayoutWrapper = styled('div')({
   flexDirection: 'column'
 })
 
+const MainLayoutWrapper = styled('div')({
+  paddingTop: '3em'
+})
+
 const SideBarLayoutWrapper = styled('div')({
   height: '100%',
   display: 'flex',
@@ -83,7 +87,7 @@ const VerticalLayout = (props: LayoutProps) => {
               toggleNavVisibility={toggleNavVisibility}
               {...props}
             />
-            <div>
+            <MainLayoutWrapper>
               {/* Content */}
               <ContentWrapper
                 className='layout-page-content'
@@ -105,8 +109,7 @@ const VerticalLayout = (props: LayoutProps) => {
               <DatePickerWrapper sx={{ zIndex: 11 }}>
                 <Box id='react-datepicker-portal'></Box>
               </DatePickerWrapper>
-
-            </div>
+            </MainLayoutWrapper>
           </SideBarLayoutWrapper>
         </MainContentWrapper>
       </VerticalLayoutWrapper>
