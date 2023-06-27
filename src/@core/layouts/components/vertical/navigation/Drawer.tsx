@@ -10,6 +10,7 @@ import MuiDrawer from '@mui/material/Drawer';
 // ** Type Import
 import {Settings} from 'src/@core/context/settingsContext'
 import {NavLink} from "../../../types";
+import VerticalNavHeader from "../appBar/AppHeader";
 
 interface Props {
   hidden: boolean
@@ -126,6 +127,19 @@ export default function MiniDrawer(props: Props) {
         }
       }}
     >
+      <Box display="flex" alignItems="center">
+        <IconButton
+          key='open'
+          aria-label='Open drawer'
+          color='primary'
+          onClick={() => handleDrawer()}
+        >
+          {open ? <KeyboardDoubleArrowRight /> : <KeyboardDoubleArrowLeftIcon />}
+        </IconButton>
+        <VerticalNavHeader toggleNavVisibility={function (): void {
+          throw new Error('Function not implemented.');
+        }} {...props} />
+      </Box>
       {children}
     </SwipeableDrawerMobile>
   )
