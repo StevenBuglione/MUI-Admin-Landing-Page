@@ -160,14 +160,16 @@ export default function MiniDrawer(props: Props) {
       }}
     >
       {children}
-      <IconButton
-        key='close'
-        aria-label='Close drawer'
-        color='primary'
-        onClick={() => handleDrawer()}
-      >
-        {open ? <KeyboardDoubleArrowRight /> : <KeyboardDoubleArrowLeftIcon />}
-      </IconButton>
+      <Box display="flex" justifyContent="flex-end">
+        <IconButton
+          key='close'
+          aria-label='Close drawer'
+          color='primary'
+          onClick={() => handleDrawer()}
+        >
+          {open ? <KeyboardDoubleArrowLeftIcon /> : <KeyboardDoubleArrowRight />}
+        </IconButton>
+      </Box>
     </SwipeableDrawerDesktop>
   )
 
