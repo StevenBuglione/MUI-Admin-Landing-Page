@@ -28,8 +28,7 @@ const MenuHeaderWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   justifyContent: 'space-between',
   paddingRight: theme.spacing(4.5),
   transition: 'padding .25s ease-in-out',
-  minHeight: theme.mixins.toolbar.minHeight,
-  width: '100%'
+  minHeight: theme.mixins.toolbar.minHeight
 }))
 
 const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
@@ -37,16 +36,13 @@ const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
   lineHeight: 'normal',
   textTransform: 'uppercase',
   color: theme.palette.text.primary,
-  transition: 'opacity .25s ease-in-out, margin .25s ease-in-out',
-  width: '100%',
-
+  transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
 }))
 
 const StyledLink = styled('a')({
   display: 'flex',
   alignItems: 'center',
-  textDecoration: 'none',
-  width: '100%'
+  textDecoration: 'none'
 })
 
 const VerticalNavHeader = (props: Props) => {

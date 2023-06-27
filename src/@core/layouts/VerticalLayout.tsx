@@ -26,7 +26,18 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
-  display: 'flex'
+  display: 'flex',
+  flexDirection: 'column'
+})
+
+const MainLayoutWrapper = styled('div')({
+  paddingTop: '3em'
+})
+
+const SideBarLayoutWrapper = styled('div')({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'row'
 })
 
 const MainContentWrapper = styled(Box)<BoxProps>({
@@ -66,38 +77,40 @@ const VerticalLayout = (props: LayoutProps) => {
     <>
       <VerticalLayoutWrapper className='layout-wrapper'>
         {/* Navigation Menu */}
-        <Navigation
-          navWidth={navWidth}
-          navVisible={navVisible}
-          setNavVisible={setNavVisible}
-          toggleNavVisibility={toggleNavVisibility}
-          {...props}
-        />
+        <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
         <MainContentWrapper className='layout-content-wrapper'>
-          {/* AppBar Component */}
-          <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
+          <SideBarLayoutWrapper>
+            <Navigation
+              navWidth={navWidth}
+              navVisible={navVisible}
+              setNavVisible={setNavVisible}
+              toggleNavVisibility={toggleNavVisibility}
+              {...props}
+            />
+            <MainLayoutWrapper>
+              {/* Content */}
+              <ContentWrapper
+                className='layout-page-content'
+                sx={{
+                  ...(contentWidth === 'boxed' && {
+                    mx: 'auto',
+                    '@media (min-width:1440px)': { maxWidth: '100%' },
+                    '@media (min-width:1200px)': { maxWidth: '100%' }
+                  })
+                }}
+              >
+                {children}
+              </ContentWrapper>
 
-          {/* Content */}
-          <ContentWrapper
-            className='layout-page-content'
-            sx={{
-              ...(contentWidth === 'boxed' && {
-                mx: 'auto',
-                '@media (min-width:1440px)': { maxWidth: 1440 },
-                '@media (min-width:1200px)': { maxWidth: '100%' }
-              })
-            }}
-          >
-            {children}
-          </ContentWrapper>
+              {/* Footer Component */}
+              <Footer {...props} />
 
-          {/* Footer Component */}
-          <Footer {...props} />
-
-          {/* Portal for React Datepicker */}
-          <DatePickerWrapper sx={{ zIndex: 11 }}>
-            <Box id='react-datepicker-portal'></Box>
-          </DatePickerWrapper>
+              {/* Portal for React Datepicker */}
+              <DatePickerWrapper sx={{ zIndex: 11 }}>
+                <Box id='react-datepicker-portal'></Box>
+              </DatePickerWrapper>
+            </MainLayoutWrapper>
+          </SideBarLayoutWrapper>
         </MainContentWrapper>
       </VerticalLayoutWrapper>
 

@@ -32,12 +32,6 @@ const navigation = (): VerticalNavItemsType => {
       component: AccountSettings
     },
     {
-      sectionTitle: 'Pages'
-    },
-    {
-      sectionTitle: 'User Interface'
-    },
-    {
       title: 'Typography',
       icon: FormatLetterCase,
       path: '/typography',
