@@ -1,11 +1,14 @@
 {
-  "name": "admin-template-free",
+  "name": "admin-template",
+  "homepage": "https://github.com/StevenBuglione/MUI-Admin-Landing-Page/tree/main",
   "description": "Admin Template",
   "license": "MIT",
   "version": "1.0.0",
   "private": false,
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -25,6 +28,7 @@
     "@types/react-router-dom": "^5.3.3",
     "apexcharts-clevision": "3.28.5",
     "clsx": "^1.1.1",
+    "gh-pages": "^5.0.0",
     "mdi-material-ui": "^7.1.0",
     "nprogress": "^0.2.0",
     "react": "17.0.2",
